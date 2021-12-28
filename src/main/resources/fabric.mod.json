@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "interference",
+  "version": "${version}",
+  "name": "Interference",
+  "description": "Simple mixin library ",
+  "authors": [
+    "magistermaks"
+  ],
+  "contact": {
+    "website": "darktree.net",
+    "repo": "https://github.com/magistermaks/mod-interference"
+  },
+  "license": "MIT",
+  "icon": "assets/interference/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.darktree.interference.Interference"
+    ]
+  },
+  "mixins": [
+    "interference.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "*",
+    "minecraft": "1.18.x"
+  }
+}
