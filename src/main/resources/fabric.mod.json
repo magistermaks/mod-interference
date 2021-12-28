@@ -3,7 +3,7 @@
   "id": "interference",
   "version": "${version}",
   "name": "Interference",
-  "description": "Simple mixin library ",
+  "description": "Simple library adding common mixins",
   "authors": [
     "magistermaks"
   ],
