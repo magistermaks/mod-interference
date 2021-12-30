@@ -18,7 +18,7 @@ abstract public class RecipeManagerMixin {
 
 	@Inject(method = "apply", at = @At("HEAD"))
 	public void interceptApply(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, CallbackInfo info) {
-		RecipeInjector.consume(map::put);
+		RecipeInjector.consume(pair -> map.put(pair.getFirst(), pair.getSecond()));
 	}
 
 }

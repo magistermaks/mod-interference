@@ -36,7 +36,7 @@ public class ModelLoaderMixin {
 	 *
 	 * <p> We redirect getAllResources to catch the exception it throws when no Resource is found.
 	 * When that happens we check if there is a Default BlockState Model we want to inject with that name,
-	 * if no ({@link ModelInjector#getBlockState} returned null) we rethrow the exception as if nothing happened,
+	 * if no ({@link ModelInjector#getDefaultBlockState} returned null) we rethrow the exception as if nothing happened,
 	 * if yes we wrap the json data in a fake Resource object - {@link BridgeResource} for later processing in the lambda inject </p>
 	 */
 	@Redirect(method="loadModel", at=@At(value="INVOKE", target="Lnet/minecraft/resource/ResourceManager;getAllResources(Lnet/minecraft/util/Identifier;)Ljava/util/List;"))
@@ -44,7 +44,7 @@ public class ModelLoaderMixin {
 		try{
 			return instance.getAllResources(identifier);
 		}catch(IOException exception){
-			JsonElement json = ModelInjector.getBlockState(identifier);
+			JsonElement json = ModelInjector.getDefaultBlockState(identifier);
 
 			if( json != null ) {
 				return Collections.singletonList( new BridgeResource(identifier, json) );
@@ -60,7 +60,7 @@ public class ModelLoaderMixin {
 	 * <p> Adds a special case for processing {@link BridgeResource} objects, when an object of that class is found
 	 * the JsonElement stored within is deserialized using {@link #variantMapDeserializationContext} and returned as a pair </p>
 	 */
-	@Inject(method="method_4737", at=@At("HEAD"), cancellable=true)
+	@Inject(method="method_4737", remap=false, at=@At("HEAD"), cancellable=true)
 	private void injectVariant(Resource resource, CallbackInfoReturnable<Pair<String, ModelVariantMap>> info) {
 		if( resource instanceof BridgeResource bridge ) {
 			Gson gson = ((DeserializationContextAccessor) (Object) this.variantMapDeserializationContext).getGson();
@@ -74,7 +74,7 @@ public class ModelLoaderMixin {
 	 *
 	 * <p> We redirect getResource to catch the exception it throws when no Resource is found.
 	 * When that happens we check if there is a Default Model we want to inject with that name,
-	 * if no ({@link ModelInjector#getModel} returned null) we rethrow the exception as if nothing happened,
+	 * if no ({@link ModelInjector#getDefaultModel} returned null) we rethrow the exception as if nothing happened,
 	 * if yes we wrap the json data in a fake Resource object - {@link BridgeResource} for later processing in the loadModelFromJson inject </p>
 	 */
 	@Redirect(method="loadModelFromJson", at=@At(value="INVOKE", target="Lnet/minecraft/resource/ResourceManager;getResource(Lnet/minecraft/util/Identifier;)Lnet/minecraft/resource/Resource;"))
@@ -82,7 +82,7 @@ public class ModelLoaderMixin {
 		try{
 			return instance.getResource(identifier);
 		}catch(IOException exception){
-			JsonElement json = ModelInjector.getModel(identifier);
+			JsonElement json = ModelInjector.getDefaultModel(identifier);
 
 			if( json != null ) {
 				return new BridgeResource(identifier, json);

@@ -17,9 +17,6 @@
   "entrypoints": {
     "main": [
       "net.darktree.interference.Interference"
-    ],
-    "client": [
-      "net.darktree.interference.Interference"
     ]
   },
   "mixins": [
