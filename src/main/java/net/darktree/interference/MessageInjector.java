@@ -1,15 +1,14 @@
 package net.darktree.interference;
 
-import net.darktree.interference.impl.Lockable;
+import net.darktree.interference.impl.LockableSet;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.function.Consumer;
 
 public class MessageInjector {
 
-	private static final Lockable<String, ArrayList<String>> messages = new Lockable<>(new ArrayList<>());
+	private static final LockableSet<String> messages = new LockableSet<>();
 
 	/**
 	 * Used for injecting messages
@@ -17,7 +16,7 @@ public class MessageInjector {
 	 * @param data encoded massage to inject
 	 */
 	public static void inject( String data ) {
-		messages.get().add( new String( Base64.getDecoder().decode(data) ) );
+		messages.add( new String( Base64.getDecoder().decode(data) ) );
 	}
 
 	/**
@@ -27,7 +26,7 @@ public class MessageInjector {
 	 */
 	@Deprecated
 	public static void injectPlain( String message ) {
-		messages.get().add(message);
+		messages.add(message);
 	}
 
 	@ApiStatus.Internal
