@@ -33,6 +33,15 @@ LootInjector.inject(new Identifier("modid", "blocks/your_block"), (state, builde
 });
 ```
 
+**Additional features of the LootInjector:**  
+The `LootInjector` class also allows for simpler addition of items into existing JSON-based loot tables,
+using the `injectEntry` and `injectPool` methods. This can be used, for example, for adding items into chests in structures.
+
+```java
+// the "100" is the chance of the item appearing in the chest - 100%
+LootInjector.injectEntry(LootTables.SPAWN_BONUS_CHEST, new ItemStack(Items.DIAMOND_BLOCK), 100);
+```
+
 #### Default BlockState Model
 _This is referring to the thing usually created by placing JSON files in the blockstates/ 
 directory._
@@ -62,11 +71,16 @@ RecipeInjector.inject(new Identifier("modid", "your_block"), recipe);
 ```
 
 #### `RedstoneConnectable` interface
-Can be used to make redstone wire connect to a block the implements it based on direction.  
-Note that this is only useful for redstone consumers (eg. lamps), as all redstone emitting blocks
-automatically connect with redstone wire
+Can be used to make redstone wire connect to a block that implements it based on direction.  
+Note that this is only useful for redstone consumers (e.g. lamps), as all redstone emitting blocks
+automatically connect with redstone wire.
 
 #### `MutableHardness` interface
-Can be used to make the block implementing it has different hardness values based on position and block state.  
-Note that the original hardness of a block can still be access using: `((HardnessAccessor) (Object) this).getStoredHardness()`,
+Can be used to make the block implementing it have different hardness values based on position and block state.  
+**Note:** The original hardness of a block can still be access using: `((HardnessAccessor) (Object) this).getStoredHardness()`,
 where `this` is a block instance.
+
+#### `LookAtEvent` interface
+Implementing this interface on a block allows the block to react to players looking at them, with the 
+3 new provided events `onLookAtStart` called once, `onLookAtTick` called per player per tick, and `onLookAtStop` called
+once when a player stops looking at a block.

@@ -32,6 +32,7 @@ public class MessageInjector {
 	@ApiStatus.Internal
 	public static void consume( Consumer<String> consumer ) {
 		messages.consume(consumer);
+		messages.clear();
 	}
 
 }

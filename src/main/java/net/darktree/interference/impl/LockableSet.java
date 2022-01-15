@@ -6,16 +6,21 @@ import java.util.function.Consumer;
 
 public class LockableSet<E> {
 
-	private Set<E> type = new HashSet<>();
+	private final Set<E> type = new HashSet<>();
+	private boolean lock = false;
 
 	public void add(E entry) {
-		if(this.type == null) throw new RuntimeException("Unable to access locked type!");
+		if(this.lock) throw new RuntimeException("Unable to append to a locked set!");
 		this.type.add(entry);
 	}
 
 	public void consume( Consumer<E> consumer ) {
 		this.type.forEach(consumer);
-		this.type = null;
+		this.lock = true;
+	}
+
+	public void clear() {
+		this.type.clear();
 	}
 
 }

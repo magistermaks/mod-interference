@@ -1,11 +1,16 @@
 package net.darktree.interference;
 
+import net.darktree.interference.impl.LookAtTickHandle;
+import net.darktree.interference.impl.LootTableLoadingHandle;
 import net.fabricmc.api.ModInitializer;
 
 public class Interference implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		LookAtTickHandle.register();
+		LootTableLoadingHandle.register();
+
 		MessageInjector.inject("SSdtIHRoZSBtYW4gd2hvIGFycmFuZ2VzIHRoZSBibG9ja3Mh");
 		MessageInjector.inject("UGlyYWN5IGlzIGFsbCBhYm91dCBicmFuZGluZyE=");
 		MessageInjector.inject("QW5kIHdoYXQgY2FuIHlvdSBkbywgbXkgZWZmZW1pbmF0ZSBmZWxsb3c/");
