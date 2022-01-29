@@ -24,11 +24,11 @@
   ],
   "custom": {
     "modmenu": {
-      "badges": [ "library" ]
+      "badges": ["library"]
     }
   },
   "depends": {
     "fabricloader": "*",
-    "minecraft": "1.18.x"
+    "minecraft": ["1.17.x", "1.18.x"]
   }
 }

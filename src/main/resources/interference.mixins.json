@@ -4,16 +4,18 @@
   "package": "net.darktree.interference.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "AxeItemMixin",
     "BlockLootMixin",
+    "FlowableFluidMixin",
     "HardnessAccessor",
     "HardnessMixin",
     "RecipeManagerMixin",
     "RedstoneWireMixin"
   ],
   "client": [
-    "MessageProviderMixin",
     "DeserializationContextAccessor",
     "JsonModelAccessor",
+    "MessageProviderMixin",
     "ModelLoaderMixin"
   ],
   "injectors": {
