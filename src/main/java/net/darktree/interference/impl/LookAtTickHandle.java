@@ -1,61 +1,48 @@
 package net.darktree.interference.impl;
 
 import net.darktree.interference.api.LookAtEvent;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.HashMap;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 public class LookAtTickHandle {
 
-	private static final HashMap<PlayerEntity, BlockPoint> blocks = new HashMap<>();
+	public static void raytrace(PlayerEntity player, BlockPoint previous, Consumer<BlockPoint> callback) {
+		if( player.world != null ) {
+			HitResult hit = player.raycast(128, 0.0f, false);
 
-	public static void register() {
-		ServerTickEvents.END_SERVER_TICK.register( LookAtTickHandle::execute );
-	}
+			if( hit.getType() == HitResult.Type.BLOCK ) {
 
-	private static void execute(MinecraftServer server) {
-		for(PlayerEntity player : server.getPlayerManager().getPlayerList()) {
+				BlockHitResult blockHit = (BlockHitResult) hit;
+				BlockPoint current = BlockPoint.of(player.world, blockHit.getBlockPos());
 
-			if( player.world != null ) {
-				HitResult hit = player.raycast(128, 0.0f, false);
+				if( !current.equals(previous) ) {
 
-				if( hit.getType() == HitResult.Type.BLOCK ) {
-
-					BlockHitResult blockHit = (BlockHitResult) hit;
-					BlockPoint previous = blocks.get(player);
-					BlockPoint current = BlockPoint.of(player.world, blockHit.getBlockPos());
-
-					if( !current.equals(previous) ) {
-
-						if( current.block instanceof LookAtEvent handle ) {
-							handle.onLookAtStart(current.cached, current.world, current.pos, player, blockHit);
-						}
-
-						notifyPrevious(previous, player);
-						blocks.put(player, current);
-
-					}else{
-
-						if( current.block instanceof LookAtEvent handle ) {
-							handle.onLookAtTick(current.cached, current.world, current.pos, player, blockHit);
-						}
-
+					if( current.block instanceof LookAtEvent handle ) {
+						handle.onLookAtStart(current.cached, current.world, current.pos, player, blockHit);
 					}
+
+					notifyPrevious(previous, player);
+					callback.accept(current);
+
 				}else{
 
-					notifyPrevious(blocks.get(player), player);
-					blocks.put(player, null);
+					if( current.block instanceof LookAtEvent handle ) {
+						handle.onLookAtTick(current.cached, current.world, current.pos, player, blockHit);
+					}
 
 				}
+			}else{
+
+				notifyPrevious(previous, player);
+				callback.accept(null);
 
 			}
 
@@ -68,7 +55,7 @@ public class LookAtTickHandle {
 		}
 	}
 
-	static class BlockPoint {
+	public static class BlockPoint {
 
 		public BlockPos pos;
 		public Block block;

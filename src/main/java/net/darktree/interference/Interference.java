@@ -3,20 +3,24 @@ package net.darktree.interference;
 import net.darktree.interference.impl.LookAtTickHandle;
 import net.darktree.interference.impl.LootTableLoadingHandle;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.entity.player.PlayerEntity;
+
+import java.util.HashMap;
 
 public class Interference implements ModInitializer {
 
+	private static final HashMap<PlayerEntity, LookAtTickHandle.BlockPoint> blocks = new HashMap<>();
+
 	@Override
 	public void onInitialize() {
-		LookAtTickHandle.register();
 		LootTableLoadingHandle.register();
 
-		MessageInjector.inject("SSdtIHRoZSBtYW4gd2hvIGFycmFuZ2VzIHRoZSBibG9ja3Mh");
-		MessageInjector.inject("UGlyYWN5IGlzIGFsbCBhYm91dCBicmFuZGluZyE=");
-		MessageInjector.inject("QW5kIHdoYXQgY2FuIHlvdSBkbywgbXkgZWZmZW1pbmF0ZSBmZWxsb3c/");
-		MessageInjector.inject("Q2hlY2sgb3V0IFNlcXVlbnNhIFByb2dyYW1taW5nIExhbmd1YWdlIQ==");
-		MessageInjector.inject("WW91IGtub3cgdGhlIHJ1bGVzIGFuZCBzbyBkbyBJIQ==");
-		MessageInjector.inject("Q2hlY2sgb3V0IERhc2hMb2FkZXIh");
+		ServerTickEvents.END_WORLD_TICK.register(world -> {
+			for(PlayerEntity player : world.getPlayers()) {
+				LookAtTickHandle.raytrace(player, blocks.get(player), point -> blocks.put(player, point));
+			}
+		});
 	}
 
 }
