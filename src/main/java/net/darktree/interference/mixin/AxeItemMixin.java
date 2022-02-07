@@ -1,15 +1,9 @@
 package net.darktree.interference.mixin;
 
 import net.darktree.interference.api.AxeScrapeable;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,7 +15,7 @@ import java.util.Optional;
 @Mixin(AxeItem.class)
 public class AxeItemMixin {
 
-	@ModifyVariable(method="useOnBlock", name="optional4", at=@At(value="INVOKE", shift=At.Shift.BEFORE, ordinal=3, target="Ljava/util/Optional;isPresent()Z"))
+	@ModifyVariable(method="useOnBlock", index=8, at=@At(value="INVOKE", shift=At.Shift.BEFORE, ordinal=3, target="Ljava/util/Optional;isPresent()Z"))
 	public Optional<BlockState> useOnBlock(Optional<BlockState> optional4, ItemUsageContext context) {
 		if( !optional4.isPresent() ) {
 			World world = context.getWorld();
