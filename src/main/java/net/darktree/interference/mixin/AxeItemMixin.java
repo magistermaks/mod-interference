@@ -15,14 +15,14 @@ import java.util.Optional;
 @Mixin(AxeItem.class)
 public class AxeItemMixin {
 
-	@ModifyVariable(method="useOnBlock", index=8, at=@At(value="INVOKE", shift=At.Shift.BEFORE, ordinal=3, target="Ljava/util/Optional;isPresent()Z"))
+	@ModifyVariable(method="useOnBlock", index=10, at=@At(value="INVOKE", shift=At.Shift.BEFORE, ordinal=3, target="Ljava/util/Optional;isPresent()Z"))
 	public Optional<BlockState> useOnBlock(Optional<BlockState> optional4, ItemUsageContext context) {
 		if( !optional4.isPresent() ) {
 			World world = context.getWorld();
 			BlockPos pos = context.getBlockPos();
 			BlockState state = world.getBlockState(pos);
 
-			if( state.getBlock() instanceof AxeScrapeable scrapeable ) {
+			if (state.getBlock() instanceof AxeScrapeable scrapeable) {
 				return scrapeable.getScrapedState(world, pos, state, context.getPlayer());
 			}
 		}
