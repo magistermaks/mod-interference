@@ -18,7 +18,9 @@ public class Interference implements ModInitializer {
 
 		ServerTickEvents.END_WORLD_TICK.register(world -> {
 			for(PlayerEntity player : world.getPlayers()) {
-				LookAtTickHandle.raytrace(player, blocks.get(player), point -> blocks.put(player, point));
+				if (!player.isSpectator()) {
+					LookAtTickHandle.raytrace(player, blocks.get(player), point -> blocks.put(player, point));
+				}
 			}
 		});
 	}

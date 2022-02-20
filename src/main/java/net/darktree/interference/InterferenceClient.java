@@ -4,6 +4,7 @@ import net.darktree.interference.impl.LookAtTickHandle;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.player.PlayerEntity;
 
 public class InterferenceClient implements ClientModInitializer {
 
@@ -19,8 +20,10 @@ public class InterferenceClient implements ClientModInitializer {
 		MessageInjector.inject("Q2hlY2sgb3V0IERhc2hMb2FkZXIh");
 
 		ClientTickEvents.END_WORLD_TICK.register(world -> {
-			if(MinecraftClient.getInstance().player != null) {
-				LookAtTickHandle.raytrace(MinecraftClient.getInstance().player, client, point -> client = point);
+			PlayerEntity player = MinecraftClient.getInstance().player;
+
+			if(player != null && !player.isSpectator()) {
+				LookAtTickHandle.raytrace(player, client, point -> client = point);
 			}
 		});
 	}
