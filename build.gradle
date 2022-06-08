@@ -75,9 +75,9 @@ publishing {
 	}
 
 	repositories {
-//		maven {
-//			url = layout.buildDirectory.dir('maven')
-//		}
+		maven {
+			url = layout.buildDirectory.dir('maven')
+		}
 		mavenLocal()
 	}
 }
