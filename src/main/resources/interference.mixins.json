@@ -16,7 +16,8 @@
     "DeserializationContextAccessor",
     "JsonModelAccessor",
     "MessageProviderMixin",
-    "ModelLoaderMixin"
+    "ModelLoaderMixin",
+    "ParticleManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

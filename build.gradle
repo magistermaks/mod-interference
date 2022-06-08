@@ -6,12 +6,27 @@ plugins {
 version = project.version
 group = project.maven_group
 
+sourceSets {
+	testmod {
+		compileClasspath += main.compileClasspath
+		runtimeClasspath += main.runtimeClasspath
+	}
+}
+
 repositories {
 	// We don't depend on anything
 }
 
 loom {
 	runtimeOnlyLog4j = true
+
+	runs {
+		testmodClient {
+			client()
+			name = "Testmod Client"
+			source sourceSets.testmod
+		}
+	}
 }
 
 dependencies {
@@ -21,6 +36,8 @@ dependencies {
 
 	// Fabric API
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	testmodImplementation sourceSets.main.output
 }
 
 processResources {
@@ -58,8 +75,9 @@ publishing {
 	}
 
 	repositories {
-		maven {
-			url = layout.buildDirectory.dir('maven')
-		}
+//		maven {
+//			url = layout.buildDirectory.dir('maven')
+//		}
+		mavenLocal()
 	}
 }
