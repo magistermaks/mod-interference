@@ -16,7 +16,7 @@ import java.util.Map;
 @Mixin(RecipeManager.class)
 abstract public class RecipeManagerMixin {
 
-	@Inject(method = "apply", at = @At("HEAD"))
+	@Inject(method = "apply(Ljava/util/Map;Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)V", at = @At("HEAD"))
 	public void interceptApply(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, CallbackInfo info) {
 		RecipeInjector.consume(pair -> map.put(pair.getFirst(), pair.getSecond()));
 	}

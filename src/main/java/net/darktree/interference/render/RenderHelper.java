@@ -9,15 +9,15 @@ import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.*;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockRenderView;
 
 import java.util.List;
-import java.util.Random;
 
 @Environment(EnvType.CLIENT)
 public class RenderHelper {
 
-	private static final Random RANDOM = new Random();
+	private static final Random RANDOM = Random.create();
 
 	/**
 	 * Render flat quad into given vertex consumer

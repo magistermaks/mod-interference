@@ -21,7 +21,6 @@ public class TestFoo implements ModInitializer, ClientModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Test mod has loaded!");
-
 	}
 
 	@Override
