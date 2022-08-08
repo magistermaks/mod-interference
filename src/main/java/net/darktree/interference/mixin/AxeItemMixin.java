@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import java.util.Optional;
 
 @Mixin(AxeItem.class)
-public class AxeItemMixin {
+public abstract class AxeItemMixin {
 
 	@ModifyVariable(method="useOnBlock", index=10, at=@At(value="INVOKE", shift=At.Shift.BEFORE, ordinal=3, target="Ljava/util/Optional;isPresent()Z"))
 	public Optional<BlockState> useOnBlock(Optional<BlockState> optional4, ItemUsageContext context) {

@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Mixin(ModelLoader.class)
-public class ModelLoaderMixin {
+public abstract class ModelLoaderMixin {
 
 	@Final
 	@Shadow
