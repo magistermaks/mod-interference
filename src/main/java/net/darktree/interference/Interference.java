@@ -8,12 +8,6 @@ import org.jetbrains.annotations.ApiStatus;
 
 public class Interference implements ModInitializer {
 
-	@ApiStatus.Experimental
-	@ApiStatus.Internal
-	public static <T> T getClient(T object) {
-		return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT ? object : null;
-	}
-
 	@Override
 	public void onInitialize() {
 		LootTableLoadingHandle.register();

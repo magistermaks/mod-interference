@@ -16,8 +16,8 @@ import java.util.Optional;
 public class AxeItemMixin {
 
 	@ModifyVariable(method="useOnBlock", index=10, at=@At(value="INVOKE", shift=At.Shift.BEFORE, ordinal=3, target="Ljava/util/Optional;isPresent()Z"))
-	public Optional<BlockState> useOnBlock(Optional<BlockState> optional4, ItemUsageContext context) {
-		if( !optional4.isPresent() ) {
+	public Optional<BlockState> useOnBlock(Optional<BlockState> optional, ItemUsageContext context) {
+		if(!optional.isPresent()) {
 			World world = context.getWorld();
 			BlockPos pos = context.getBlockPos();
 			BlockState state = world.getBlockState(pos);
@@ -27,7 +27,7 @@ public class AxeItemMixin {
 			}
 		}
 
-		return optional4;
+		return optional;
 	}
 
 }

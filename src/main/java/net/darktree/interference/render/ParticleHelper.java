@@ -1,40 +1,24 @@
 package net.darktree.interference.render;
 
-import net.darktree.interference.Interference;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleEffect;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 public class ParticleHelper {
-
-	private final static HashMap<Identifier, List<Identifier>> particleSprites = Interference.getClient(new HashMap<>());
 
 	/**
 	 * Register particle without messing with JSON
 	 * This should be called from the common initializer or the static block
 	 */
 	public static DefaultParticleType register(Identifier particle, boolean always, Identifier... sprites) {
-		if (particleSprites != null) {
-			ArrayList<Identifier> paths = new ArrayList<>();
-
-			for (Identifier sprite : sprites) {
-				paths.add(new Identifier(sprite.getNamespace(), "particle/" + sprite.getPath()));
-			}
-
-			particleSprites.put(particle, paths);
-		}
-
-		return Registry.register(Registry.PARTICLE_TYPE, particle, FabricParticleTypes.simple(always));
+		return Registry.register(Registries.PARTICLE_TYPE, particle, FabricParticleTypes.simple(always));
 	}
 
 	/**
@@ -58,9 +42,4 @@ public class ParticleHelper {
 		Particle create(ClientWorld world, double x, double y, double z, double vx, double vy, double vz);
 	}
 
-	@ApiStatus.Internal
-	public static List<Identifier> getSpritesAndForget(Identifier identifier) {
-		assert particleSprites != null;
-		return particleSprites.remove(identifier);
-	}
 }

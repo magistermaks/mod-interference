@@ -13,11 +13,7 @@
     "RedstoneWireMixin"
   ],
   "client": [
-    "DeserializationContextAccessor",
-    "JsonModelAccessor",
-    "MessageProviderMixin",
-    "ModelLoaderMixin",
-    "ParticleManagerMixin"
+    "MessageProviderMixin"
   ],
   "injectors": {
     "defaultRequire": 1

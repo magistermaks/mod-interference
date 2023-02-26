@@ -8,16 +8,27 @@ import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockRenderView;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class RenderHelper {
 
+	private static final Vector3f POSITIVE_Y = new Vector3f(0, 1, 0);
 	private static final Random RANDOM = Random.create();
+	private static final Quaternionf FACING = getDegreesQuaternion(POSITIVE_Y, 180);
+
+	public static Quaternionf getDegreesQuaternion(Vector3f vector, float degrees) {
+		return new Quaternionf().fromAxisAngleDeg(vector, degrees);
+	}
 
 	/**
 	 * Render flat quad into given vertex consumer
@@ -52,15 +63,14 @@ public class RenderHelper {
 
 	private static void renderBillboard(MatrixStack matrices, VertexConsumer buffer, int light) {
 		matrices.multiply(MinecraftClient.getInstance().gameRenderer.getCamera().getRotation());
-		matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(180.0F));
+		matrices.multiply(FACING);
 
 		MatrixStack.Entry entry = matrices.peek();
 		Matrix4f position = entry.getPositionMatrix();
 		Matrix3f normal = entry.getNormalMatrix();
 
-		Vec3f vec3f = new Vec3f(0, 1, 0);
-		vec3f.transform(normal);
-		float nx = vec3f.getX(), ny = vec3f.getY(), nz = vec3f.getZ();
+		Vector3f vec3f = normal.transform(new Vector3f(0, 1, 0));
+		float nx = vec3f.x(), ny = vec3f.y(), nz = vec3f.z();
 
 		buffer.vertex(position, -0.5f, -0.5f,  0.0f).color(255, 255, 255, 255).texture(0, 1).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(nx, ny, nz).next();
 		buffer.vertex(position,  0.5f, -0.5f,  0.0f).color(255, 255, 255, 255).texture(1, 1).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(nx, ny, nz).next();
@@ -85,7 +95,6 @@ public class RenderHelper {
 	/**
 	 * Scales and transforms the matrices to point at (x2, y2, z2) from (x1, y1, z1)
 	 * and returns the distance between those points.
-	 *
 	 * based on: stackoverflow.com/q/14337441
 	 */
 	public static float lookAlong(MatrixStack matrices, float x1, float y1, float z1, float x2, float y2, float z2) {
@@ -98,7 +107,7 @@ public class RenderHelper {
 			if(y2 > y1) {
 				return y2 - y1;
 			}else{
-				matrices.multiply( Quaternion.fromEulerXyz((float) Math.PI, 0, 0));
+				matrices.multiply(new Quaternionf().rotateYXZ((float) Math.PI, 0, 0));
 				return y1 - y2;
 			}
 		}
@@ -111,9 +120,9 @@ public class RenderHelper {
 		y2 *= scale;
 		z2 *= scale;
 
-		final Vec3f axis = new Vec3f(-z2, 0, x2);
+		final Vector3f axis = new Vector3f(-z2, 0, x2);
 		axis.normalize();
-		Quaternion q = new Quaternion(axis, (float) Math.acos(y2), false);
+		Quaternionf q = new Quaternionf().fromAxisAngleRad(axis, (float) Math.acos(y2));
 		matrices.multiply(q);
 
 		return distance;

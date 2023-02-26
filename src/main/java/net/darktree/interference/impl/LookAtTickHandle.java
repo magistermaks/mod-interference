@@ -15,17 +15,17 @@ import java.util.function.Consumer;
 public class LookAtTickHandle {
 
 	public static void raytrace(PlayerEntity player, BlockPoint previous, Consumer<BlockPoint> callback) {
-		if( player.world != null ) {
+		if (player.world != null) {
 			HitResult hit = player.raycast(128, 0.0f, false);
 
-			if( hit.getType() == HitResult.Type.BLOCK ) {
+			if (hit.getType() == HitResult.Type.BLOCK) {
 
 				BlockHitResult blockHit = (BlockHitResult) hit;
 				BlockPoint current = BlockPoint.of(player.world, blockHit.getBlockPos());
 
-				if( !current.equals(previous) ) {
+				if (!current.equals(previous)) {
 
-					if( current.block instanceof LookAtEvent handle ) {
+					if (current.block instanceof LookAtEvent handle) {
 						handle.onLookAtStart(current.cached, current.world, current.pos, player, blockHit);
 					}
 
@@ -34,7 +34,7 @@ public class LookAtTickHandle {
 
 				}else{
 
-					if( current.block instanceof LookAtEvent handle ) {
+					if (current.block instanceof LookAtEvent handle) {
 						handle.onLookAtTick(current.cached, current.world, current.pos, player, blockHit);
 					}
 

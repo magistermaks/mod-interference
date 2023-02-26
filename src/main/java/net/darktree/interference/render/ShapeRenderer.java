@@ -2,8 +2,8 @@ package net.darktree.interference.render;
 
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.Matrix4f;
 import org.jetbrains.annotations.ApiStatus;
+import org.joml.Matrix4f;
 
 @ApiStatus.Experimental
 public class ShapeRenderer {

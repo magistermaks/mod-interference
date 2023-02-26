@@ -4,7 +4,7 @@ To use Interference API in you project add it to your `build.gradle`:
 repositories{
     maven{
         allowInsecureProtocol=true
-        url "http://maven.darktree.net"
+        url "http://darktree.net/maven"
     }
 }
 
@@ -42,26 +42,6 @@ using the `injectEntry` and `injectPool` methods. This can be used, for example,
 LootInjector.injectEntry(LootTables.SPAWN_BONUS_CHEST, new ItemStack(Items.DIAMOND_BLOCK), 100);
 ```
 
-#### Default BlockState Model
-_This is referring to the thing usually created by placing JSON files in the blockstates/ 
-directory._
-To inject a JsonElement as default block state model use the `ModelInjector` class:  
-This is safe to do from the common initializer.
-
-```java
-JsonObject model = ...;
-ModelInjector.injectBlockState(new Identifier("modid", "your_block"), model);
-```
-
-#### Default Models
-To inject a JsonElement as default block or item model use the `ModelInjector` class:  
-This is safe to do from the common initializer.
-
-```java
-JsonObject model = ...;
-ModelInjector.injectModel(new Identifier("modid", "block/your_block_model"), model);
-```
-
 #### Default Recipes
 To inject a JsonElement as default recipe use the `RecipeInjector` class:  
 
@@ -97,7 +77,7 @@ and spawning particles.
 To emulate the given vanilla effect use:
 - `AxeScrapeHelper.strip()` striping logs
 - `AxeScrapeHelper.scrape()` scraping oxidation from copper blocks
-- `AxeScrapeHelper.scrapeOff()` scraping wax from copper blocks
+- `AxeScrapeHelper.wax()` scraping wax from copper blocks
 
 Example usage: make a block drop dirt and turn into stone with the scrape sound and particle.
 ```java

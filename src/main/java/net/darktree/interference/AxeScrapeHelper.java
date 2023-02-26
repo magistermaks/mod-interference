@@ -33,7 +33,7 @@ public class AxeScrapeHelper {
 	 * Call from {@link net.darktree.interference.api.AxeScrapeable#getScrapedState} to emulate the vanilla behavior of
 	 * scraping wax from copper blocks.
 	 */
-	public static Optional<BlockState> scrapeOff(World world, BlockPos pos, PlayerEntity player, BlockState state) {
+	public static Optional<BlockState> wax(World world, BlockPos pos, PlayerEntity player, BlockState state) {
 		world.syncWorldEvent(player, 3004, pos, 0);
 		return from(world, pos, player, SoundEvents.ITEM_AXE_WAX_OFF, state);
 	}

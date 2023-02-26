@@ -14,8 +14,8 @@ abstract public class RedstoneWireMixin {
 
 	@Inject(at = @At("HEAD"), method = "connectsTo(Lnet/minecraft/block/BlockState;Lnet/minecraft/util/math/Direction;)Z", cancellable = true)
 	private static void connectsTo(BlockState state, Direction dir, CallbackInfoReturnable<Boolean> info) {
-		if( state.getBlock() instanceof RedstoneConnectable gate ) {
-			info.setReturnValue( dir != null && gate.connectsTo(state, dir) );
+		if (state.getBlock() instanceof RedstoneConnectable gate) {
+			info.setReturnValue(dir != null && gate.connectsTo(state, dir));
 		}
 	}
 

@@ -22,10 +22,10 @@ abstract public class BlockLootMixin {
 
 	@Inject(method="getDroppedStacks", at=@At(value="RETURN", ordinal=1), cancellable=true, locals=LocalCapture.CAPTURE_FAILHARD)
 	private void onDefaultLoot(BlockState state, LootContext.Builder builder, CallbackInfoReturnable<List<ItemStack>> info, Identifier identifier, LootContext lootContext, ServerWorld serverWorld, LootTable lootTable) {
-		if( lootTable == LootTable.EMPTY ) {
+		if(lootTable == LootTable.EMPTY) {
 			DefaultLoot loot = LootInjector.getDefaultLoot(state, identifier);
 
-			if( loot != null ) {
+			if(loot != null) {
 				info.setReturnValue( loot.getDefaultStacks(state, builder, identifier, lootContext, serverWorld, lootTable) );
 			}
 		}

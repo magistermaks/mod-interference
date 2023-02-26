@@ -48,12 +48,12 @@ public class LootInjector {
 				.withEntry(ItemEntry.builder(stack.getItem()).weight(chance).build())
 				.withFunction(SetCountLootFunction.builder(ConstantLootNumberProvider.create(stack.getCount())).build());
 
-		if( stack.getNbt() != null ) {
+		if (stack.getNbt() != null) {
 			pool.withFunction(SetNbtLootFunction.builder(stack.getNbt()).build());
 		}
 
-		if( chance < 100 ) {
-			pool.withEntry(EmptyEntry.Serializer().weight(100 - chance).build());
+		if (chance < 100) {
+			pool.withEntry(EmptyEntry.builder().weight(100 - chance).build());
 		}
 
 		injectPool(table, pool.build());
@@ -74,7 +74,7 @@ public class LootInjector {
 	@Nullable
 	@ApiStatus.Internal
 	public static DefaultLoot getDefaultLoot(BlockState state, Identifier identifier) {
-		if( state.getBlock() instanceof DefaultLoot loot ) {
+		if (state.getBlock() instanceof DefaultLoot loot) {
 			return loot;
 		}
 

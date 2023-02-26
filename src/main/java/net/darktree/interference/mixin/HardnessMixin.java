@@ -17,8 +17,8 @@ public abstract class HardnessMixin {
 	void getHardness(BlockView world, BlockPos pos, CallbackInfoReturnable<Float> info) {
 		BlockState state = world.getBlockState(pos);
 
-		if( state.getBlock() instanceof MutableHardness hardness ) {
-			info.setReturnValue( hardness.getHardness(state, world, pos) );
+		if(state.getBlock() instanceof MutableHardness hardness) {
+			info.setReturnValue(hardness.getHardness(state, world, pos));
 		}
 	}
 
