@@ -2,7 +2,6 @@ package net.darktree.interference;
 
 import net.darktree.interference.api.DefaultLoot;
 import net.darktree.interference.impl.LootTableLoadingHandle;
-import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootPool;
@@ -16,23 +15,7 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class LootInjector {
-
-	private static final Map<Identifier, DefaultLoot> defaultLootMap = new HashMap<>();
-
-	/**
-	 * Used for defining a default block loot, this setting is overwritten
-	 * by the {@link DefaultLoot} and {@link net.darktree.interference.api.DropsItself} interfaces
-	 *
-	 * @param id id of the block
-	 * @param defaultLoot default loot provider
-	 */
-	public static void inject(Identifier id, DefaultLoot defaultLoot) {
-		defaultLootMap.put(new Identifier(id.getNamespace(), "blocks/" + id.getPath()), defaultLoot);
-	}
 
 	/**
 	 * Used for adding an item stack to a JSON defined loot table, this can be used, for example, for
@@ -43,20 +26,20 @@ public class LootInjector {
 	 * @param chance the chance of that item appearing, from 0 being never to 100 being always
 	 */
 	public static void injectEntry(Identifier table, ItemStack stack, int chance) {
-		FabricLootPoolBuilder pool = FabricLootPoolBuilder.builder()
+		LootPool.Builder builder = LootPool.builder()
 				.rolls(ConstantLootNumberProvider.create(1))
-				.withEntry(ItemEntry.builder(stack.getItem()).weight(chance).build())
-				.withFunction(SetCountLootFunction.builder(ConstantLootNumberProvider.create(stack.getCount())).build());
+				.with(ItemEntry.builder(stack.getItem()).weight(chance).build())
+				.apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(stack.getCount())));
 
 		if (stack.getNbt() != null) {
-			pool.withFunction(SetNbtLootFunction.builder(stack.getNbt()).build());
+			builder.apply(SetNbtLootFunction.builder(stack.getNbt()).build());
 		}
 
 		if (chance < 100) {
-			pool.withEntry(EmptyEntry.builder().weight(100 - chance).build());
+			builder.with(EmptyEntry.builder().weight(100 - chance).build());
 		}
 
-		injectPool(table, pool.build());
+		injectPool(table, builder.build());
 	}
 
 	/**
@@ -73,11 +56,11 @@ public class LootInjector {
 
 	@Nullable
 	@ApiStatus.Internal
-	public static DefaultLoot getDefaultLoot(BlockState state, Identifier identifier) {
+	public static DefaultLoot getDefaultLoot(BlockState state) {
 		if (state.getBlock() instanceof DefaultLoot loot) {
 			return loot;
 		}
 
-		return defaultLootMap.get(identifier);
+		return null;
 	}
 }
