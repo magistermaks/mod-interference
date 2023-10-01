@@ -1,16 +1,15 @@
 package net.darktree.test;
 
-import com.google.gson.JsonObject;
 import net.darktree.interference.render.ParticleHelper;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
-import net.minecraft.block.Material;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +25,7 @@ public class TestFoo implements ModInitializer, ClientModInitializer {
 
 	public static final DefaultParticleType PARTICLE_1 = ParticleHelper.register(id("particle_1"), false);
 
-	private static final Block BLOCK = new Block(FabricBlockSettings.of(Material.AMETHYST, MapColor.BLACK).breakInstantly());
+	private static final Block BLOCK = new Block(FabricBlockSettings.create().sounds(BlockSoundGroup.AMETHYST_BLOCK).mapColor(MapColor.BLACK).breakInstantly());
 
 	@Override
 	public void onInitialize() {
