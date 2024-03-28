@@ -18,7 +18,7 @@ public abstract class FlowableFluidMixin {
 
 	@Inject(method="canFill", at=@At(value="INVOKE_ASSIGN", target="Lnet/minecraft/block/BlockState;getBlock()Lnet/minecraft/block/Block;"), cancellable=true, locals=LocalCapture.CAPTURE_FAILHARD)
 	private void canFill(BlockView world, BlockPos pos, BlockState state, Fluid fluid, CallbackInfoReturnable<Boolean> info, Block block) {
-		if(block instanceof FluidReplaceable) {
+		if (block instanceof FluidReplaceable) {
 			info.setReturnValue(true);
 		}
 	}
