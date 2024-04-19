@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.context.LootContext;
 import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,12 +23,12 @@ import java.util.List;
 abstract public class BlockLootMixin {
 
 	@Inject(method="getDroppedStacks", at=@At(value="RETURN", ordinal=1), cancellable=true, locals=LocalCapture.CAPTURE_FAILHARD)
-	private void onDefaultLoot(BlockState state, LootContextParameterSet.Builder builder, CallbackInfoReturnable<List<ItemStack>> info, Identifier identifier, LootContextParameterSet set, ServerWorld serverWorld, LootTable lootTable) {
+	private void onDefaultLoot(BlockState state, LootContextParameterSet.Builder builder, CallbackInfoReturnable<List> info, RegistryKey key, LootContextParameterSet set, ServerWorld serverWorld, LootTable lootTable) {
 		if (lootTable == LootTable.EMPTY) {
 			DefaultLoot loot = LootInjector.getDefaultLoot(state);
 
 			if (loot != null) {
-				info.setReturnValue(loot.getDefaultStacks(state, builder, identifier, set, serverWorld, lootTable));
+				info.setReturnValue(loot.getDefaultStacks(state, builder, key.getValue(), set, serverWorld, lootTable));
 			}
 		}
 	}

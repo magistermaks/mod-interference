@@ -2,10 +2,9 @@ package net.darktree.interference.impl;
 
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.fabricmc.fabric.api.loot.v2.LootTableSource;
-import net.minecraft.loot.LootManager;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
-import net.minecraft.resource.ResourceManager;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
@@ -23,9 +22,9 @@ public class LootTableLoadingHandle {
 		pools.put(table, pool);
 	}
 
-	private static void execute(ResourceManager resource, LootManager manager, Identifier id, LootTable.Builder builder, LootTableSource source) {
+	private static void execute(RegistryKey<LootTable> key, LootTable.Builder builder, LootTableSource source) {
 		if (source.isBuiltin()) {
-			LootPool pool = pools.get(id);
+			LootPool pool = pools.get(key.getValue());
 
 			if (pool != null) {
 				builder.pool(pool);

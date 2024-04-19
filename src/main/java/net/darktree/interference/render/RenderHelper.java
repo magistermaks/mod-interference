@@ -34,7 +34,7 @@ public class RenderHelper {
 	 * Render flat quad into given vertex consumer
 	 */
 	public static void renderFlatQuad(VertexConsumer vertexConsumer, MatrixStack.Entry matrix, BakedQuad quad, float brightness, int light, int overlay) {
-		vertexConsumer.quad(matrix, quad, new float[]{brightness, brightness, brightness, brightness}, 1.0f, 1.0f, 1.0f, new int[]{light, light, light, light}, overlay, true);
+		vertexConsumer.quad(matrix, quad, new float[]{brightness, brightness, brightness, brightness}, 1.0f, 1.0f, 1.0f, 1.0f, new int[]{light, light, light, light}, overlay, true);
 	}
 
 	/**

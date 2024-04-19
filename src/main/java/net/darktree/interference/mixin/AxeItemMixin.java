@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import java.util.Optional;
 
 @Mixin(AxeItem.class)
-public class AxeItemMixin {
+public abstract class AxeItemMixin {
 
 	@ModifyVariable(method="useOnBlock", index=5, at=@At(value="INVOKE_ASSIGN", target="Lnet/minecraft/item/AxeItem;tryStrip(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/block/BlockState;)Ljava/util/Optional;"))
 	public Optional<BlockState> useOnBlock(Optional<BlockState> optional, ItemUsageContext context) {

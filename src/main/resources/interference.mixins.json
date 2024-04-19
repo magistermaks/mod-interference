@@ -10,7 +10,8 @@
     "HardnessAccessor",
     "HardnessMixin",
     "RecipeManagerMixin",
-    "RedstoneWireMixin"
+    "RedstoneWireMixin",
+    "SetComponentLootFunctionInvoker"
   ],
   "client": [
     "MessageProviderMixin"

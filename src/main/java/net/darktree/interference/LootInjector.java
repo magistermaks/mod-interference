@@ -1,19 +1,23 @@
 package net.darktree.interference;
 
+import com.google.common.collect.ImmutableList;
 import net.darktree.interference.api.DefaultLoot;
 import net.darktree.interference.impl.LootTableLoadingHandle;
+import net.darktree.interference.mixin.SetComponentLootFunctionInvoker;
 import net.minecraft.block.BlockState;
+import net.minecraft.component.ComponentChanges;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.entry.EmptyEntry;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.SetCountLootFunction;
-import net.minecraft.loot.function.SetNbtLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collections;
 
 public class LootInjector {
 
@@ -31,8 +35,8 @@ public class LootInjector {
 				.with(ItemEntry.builder(stack.getItem()).weight(chance).build())
 				.apply(SetCountLootFunction.builder(ConstantLootNumberProvider.create(stack.getCount())));
 
-		if (stack.getNbt() != null) {
-			builder.apply(SetNbtLootFunction.builder(stack.getNbt()).build());
+		if (stack.getComponentChanges() != ComponentChanges.EMPTY) {
+			builder.apply(SetComponentLootFunctionInvoker.invoke_SetComponentsLootFunction(Collections.emptyList(), stack.getComponentChanges()));
 		}
 
 		if (chance < 100) {
