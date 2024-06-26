@@ -72,10 +72,10 @@ public class RenderHelper {
 		Vector3f vec3f = normal.transform(new Vector3f(0, 1, 0));
 		float nx = vec3f.x(), ny = vec3f.y(), nz = vec3f.z();
 
-		buffer.vertex(position, -0.5f, -0.5f,  0.0f).color(255, 255, 255, 255).texture(0, 1).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(nx, ny, nz).next();
-		buffer.vertex(position,  0.5f, -0.5f,  0.0f).color(255, 255, 255, 255).texture(1, 1).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(nx, ny, nz).next();
-		buffer.vertex(position,  0.5f,  0.5f,  0.0f).color(255, 255, 255, 255).texture(1, 0).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(nx, ny, nz).next();
-		buffer.vertex(position, -0.5f,  0.5f,  0.0f).color(255, 255, 255, 255).texture(0, 0).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(nx, ny, nz).next();
+		buffer.vertex(position, -0.5f, -0.5f,  0.0f).color(255, 255, 255, 255).texture(0, 1).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(nx, ny, nz);
+		buffer.vertex(position,  0.5f, -0.5f,  0.0f).color(255, 255, 255, 255).texture(1, 1).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(nx, ny, nz);
+		buffer.vertex(position,  0.5f,  0.5f,  0.0f).color(255, 255, 255, 255).texture(1, 0).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(nx, ny, nz);
+		buffer.vertex(position, -0.5f,  0.5f,  0.0f).color(255, 255, 255, 255).texture(0, 0).overlay(OverlayTexture.DEFAULT_UV).light(light).normal(nx, ny, nz);
 	}
 
 	/**

@@ -19,15 +19,15 @@ public class ShapeRenderer {
 		while(count > 0) {
 			count --;
 
-			buffer.vertex(matrix, x + ox, height + oy, z + oz).color(r, g, b, a).next();
-			buffer.vertex(matrix, x + sx, oy, z + sz).color(r, g, b, a).next();
+			buffer.vertex(matrix, x + ox, height + oy, z + oz).color(r, g, b, a);
+			buffer.vertex(matrix, x + sx, oy, z + sz).color(r, g, b, a);
 
 			angle += step;
 			x = (float) (radius * Math.sin(angle));
 			z = (float) (radius * Math.cos(angle));
 
-			buffer.vertex(matrix, x + sx, oy, z + sz).color(r, g, b, a).next();
-			buffer.vertex(matrix, x + ox, height + oy, z + oz).color(r, g, b, a).next();
+			buffer.vertex(matrix, x + sx, oy, z + sz).color(r, g, b, a);
+			buffer.vertex(matrix, x + ox, height + oy, z + oz).color(r, g, b, a);
 		}
 	}
 

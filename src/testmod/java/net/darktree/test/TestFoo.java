@@ -7,17 +7,11 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
-import net.minecraft.component.ComponentMap;
-import net.minecraft.component.DataComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.LoreComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.TooltipAppender;
 import net.minecraft.loot.LootTables;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -37,7 +31,7 @@ public class TestFoo implements ModInitializer, ClientModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("interference_tests");
 
 	public static Identifier id(String name) {
-		return new Identifier("interference_tests", name);
+		return Identifier.of("interference_tests", name);
 	}
 
 	public static final SimpleParticleType PARTICLE_1 = ParticleHelper.register(id("particle_1"), false);
